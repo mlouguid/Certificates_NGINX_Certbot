@@ -2,7 +2,7 @@
 Create Let’s Encrypt Wildcard Certificates in NGINX Certbot
 visit the blog for more details : https://setupvm.com/ssl-certbot/
 
-                                                **Create Let’s Encrypt Wildcard Certificates in NGINX**
+                                  **Create Let’s Encrypt Wildcard Certificates in NGINX**
 
                                                 
 Let’s Encrypt is a free, automated, and open certificate authority (CA) that provides SSL/TLS certificates for enabling HTTPS on your website. Let’s Encrypt wildcard certificates allow you to secure unlimited subdomains under a base domain (e.g. *.example.com).
