@@ -16,20 +16,20 @@ A server running Ubuntu 20.04 with a public IPv4 address and a regular non-root 
 Domain names pointing to your server’s public IP. In our examples, we will use example.com and *.example.com.
 Ports 80 and 443 open on your server’s firewall.
 Nginx installed on your server. If you don’t have it yet, you can install it with:
-`
+```
 $ sudo apt install nginx
-`
+```
 Certbot installed on your server. If it’s not already installed, you can install it with:
-`
+```
 $ sudo apt install certbot python3-certbot-nginx
-`
+```
 Once you have met all the prerequisites, let’s move on to generating wildcard certificates.
 
 ### Step 1 — Generating Wildcard Certificates
 Certbot includes a certonly command for obtaining SSL/TLS certificates. To generate a wildcard certificate for *.example.com, run:
-`
+```
 $ sudo certbot certonly --manual --preferred-challenges=dns --server https://setupvm.com/ssl-certbot/ --agree-tos -d *.example.com
-`
+```
 This tells Certbot to:
 
 Use the “manual” plugin for obtaining certificates
@@ -48,12 +48,12 @@ With the wildcard certificate generated, we can now configure Nginx.
 
 First, create a new Nginx server block for the main example.com domain:
 
-`
+```
 $ sudo nano /etc/nginx/sites-available/example.com
-`
+```
 Add the following configuration:
 
-`
+```
 server {
 listen80;
 listen [::]:80;
@@ -69,15 +69,15 @@ ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
 # Other SSL config
 ...
 }
-`
+```
 
 This configures HTTPS using the Let’s Encrypt certificate and redirects HTTP traffic to HTTPS.
 
 Next, create a server block for the wildcard subdomain *.example.com:
-`
+```
 $ sudo nano /etc/nginx/sites-available/wildcard.example.com
-`
-`
+```
+```
 server {
 listen80;
 listen [::]:80;
@@ -93,36 +93,36 @@ ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
 Other SSL config
 ...
 }
-`
+```
 
 This wil handle all subdomains using the same wildcard certificate.
 
 Activate the server blocks:
-`
+```
 $ sudo ln -s /etc/nginx/sites-available/example.com /etc/nginx/sites-enabled/
 $ sudo ln -s /etc/nginx/sites-available/wildcard.example.com /etc/nginx/sites-enabled/
-`
+```
 Finally, test the Nginx configuration and reload it if successful:
-`
+```
 $ sudo nginx -t
 $ sudo systemctl reload nginx
-`
+```
 Your wildcard certificate should now be working! Try accessing your site over HTTPS and various subdomains to confirm.
 
 Automating Renewal
 Let’s Encrypt certificates expire after 90 days, so you’ll need to renew them regularly.
 
 You can automate renewal using Certbot’s renew command. Create a cron job to run daily:
-`
+```
 $ sudo crontab -e
-`
+```
 Add this line which will run Certbot daily and renew if certificates are expiring in less than 30 days:
-`
+```
 0 0 * * * /usr/bin/certbot renew --quiet --post-hook "systemctl reload nginx"
-`
+```
 This will renew your certificates automatically before they expire!
 
-Conclusion
+# Conclusion
 That’s it! You should now have Let’s Encrypt wildcard certificates issued by Certbot set up for your domain. This allows you to enable HTTPS across your main domain and any subdomains with just a single certificate.
 
 The certificates will renew automatically, providing ongoing HTTPS protection for your site. This offers your visitors security, trust, and SEO benefits.
