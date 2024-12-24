@@ -60,8 +60,8 @@ server_name example.com;
 return301 https://$host$request_uri;
 }
 server {
-listen443 ssl http2;
-listen [::]:443 ssl http2;
+listen443 ssl;
+listen [::]:443 ssl;
 server_name example.com;
 ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem;
 ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
