@@ -27,7 +27,7 @@ Once you have met all the prerequisites, let’s move on to generating wildcard 
 ### Step 1 — Generating Wildcard Certificates
 Certbot includes a certonly command for obtaining SSL/TLS certificates. To generate a wildcard certificate for *.example.com, run:
 ```
-$ sudo certbot certonly --manual --preferred-challenges=dns --server https://setupvm.com/ssl-certbot/ --agree-tos -d *.example.com
+$ sudo certbot certonly --manual --preferred-challenges=dns --server https://example.com/ssl-certbot/ --agree-tos -d *.example.com
 ```
 This tells Certbot to:
 
@@ -54,14 +54,12 @@ Add the following configuration:
 
 ```
 server {
-listen80;
-listen [::]:80;
+listen 80;
 server_name example.com;
 return301 https://$host$request_uri;
 }
 server {
-listen443 ssl;
-listen [::]:443 ssl;
+listen 443 ssl;
 server_name example.com;
 ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem;
 ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
@@ -78,14 +76,12 @@ $ sudo nano /etc/nginx/sites-available/wildcard.example.com
 ```
 ```
 server {
-listen80;
-listen [::]:80;
+listen 80;
 server_name*.example.com;
 return301 https://$host$request_uri;
 }
 server {
-listen443 ssl http2;
-listen [::]:443 ssl http2;
+listen 443 ssl;
 server_name*.example.com;
 ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem;
 ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
