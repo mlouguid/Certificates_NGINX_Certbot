@@ -77,12 +77,12 @@ $ sudo nano /etc/nginx/sites-available/wildcard.example.com
 ```
 server {
 listen 80;
-server_name*.example.com;
+server_name  *.example.com;
 return301 https://$host$request_uri;
 }
 server {
 listen 443 ssl;
-server_name*.example.com;
+server_name  *.example.com;
 ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem;
 ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
 Other SSL config
